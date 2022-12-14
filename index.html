@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Linda</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			#wrap {
+				width: 100vw;
+				height: 100vh;
+				background-color: #000;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<h1>Find Most Used Languages</h1>
+		</div>
+		<script src="./countries.js"></script>
+		<script type="module">
+			// 위의 배열에서 중복 제거된 languages 배열을 만들고,
+			// 제일 많이 사용중인 language를 찾으시오
+
+			//Scripted by Linda
+			//All languages in one array
+			const languageArr = [];
+			for (let i = 0; i < countries.length; i++) {
+				languageArr.push(countries[i].languages);
+			}
+			let allLanguages = [];
+			allLanguages = languageArr.flat(); //duplicates were flatten
+
+			//The mose used language
+			let counter = {};
+			allLanguages.forEach((name) => (counter[name] ? counter[name]++ : (counter[name] = 1)));
+
+			console.log(`사용되는 Languages와 빈도수 : `, counter);
+
+			//ES6/ES2016의 destructing 할당을 통해 더 쉬워집니다.
+			// destructing 할당 구문은 어레이 또는 개체에서 데이터를 추출하여 별도의 변수로 만들 수 있는 JavaScript 식입니다.
+			let max = Math.max(...Object.values(counter));
+			let highest = Object.entries(counter).filter(([language, reps]) => reps === max); //객체 자체의 enumerable 속성으로 [key,value]쌍의 배열을 반환했다.
+
+			console.log(`제일 많이 사용된 language는 : ${highest}번 입니다`);
+		</script>
+		<!-- 
+		<script>
+			const mostSpokenLanguages = (countries, count = 10) => {
+				let languagesList = [];
+
+				let languages = countries.map((country) => country.languages).flat();
+				let setOfLanguages = new Set(languages);
+
+				for (const lng of setOfLanguages) {
+					const filteredLang = languages.filter((lang) => lang === lng);
+					languagesList.push({ lang: lng, numLangs: filteredLang.length });
+				}
+				return languagesList.sort((a, b) => b.numLangs - a.numLangs).slice(0, count);
+			};
+
+			console.log(mostSpokenLanguages(countries));
+			console.log(mostSpokenLanguages(countries, 3));
+		</script> -->
+	</body>
+</html>
